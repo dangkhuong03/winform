@@ -1,0 +1,26 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ProjectManager.Models.Database
+{
+    [Table("user_assign")]
+    public class UserAssign
+    {
+        [Key]
+        [Column("id")]
+        public int Id { get; set; }  // Primary Key
+
+        [Column("UserId")]
+        [Required]
+        public int UserId { get; set; }  // Not null
+
+        [Column("ProjectId")]
+        [Required]
+        public int ProjectId { get; set; }  // Not null
+
+        [Column("Assign_type")]
+        [Required]
+        public string AssignType { get; set; }  // Not null
+    }
+}

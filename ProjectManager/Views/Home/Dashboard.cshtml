@@ -1,0 +1,45 @@
+﻿@model ProjectManager.Models.ViewMode.Dashboard
+
+
+<main class="project-list">
+    <div class="filter-container">
+        <!-- Textbox tìm kiếm -->
+        <input type="text" class="search-boxs" placeholder="Search...">
+
+        <!-- Dropdown Status -->
+        <select id="lstatusDropdown" class="dropdown">
+            <option value="">Status</option>
+            <!-- Options sẽ được tải từ controller -->
+        </select>
+
+        <!-- Dropdown Client -->
+        <select id="lclientDropdown" class="dropdown">
+            <option value="">Client</option>
+            <!-- Options sẽ được tải từ controller -->
+        </select>
+
+        <!-- Dropdown Assign -->
+        <select id="lassignDropdown" class="dropdown">
+            <option value="">Assign</option>
+            <!-- Options sẽ được tải từ controller -->
+        </select>
+
+
+        <!-- Button Filter -->
+        <button class="filter-button" onclick="applyFilter()">
+            <img src="~/icon/filtericon.png" alt="Filter Icon"> Filter
+        </button>
+    </div>
+
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        <p>Dashboard</p>
+        <p>@Model.SumClients</p>
+        <p>@Model.SumProjects</p>
+        <p>@Model.SumEpics</p>
+        <p>@Model.SumTasks</p>
+        <p>@Model.SumIssues</p>
+    </div>
+
+
+</main>

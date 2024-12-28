@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "Timeline";
+}
+
+<link rel="stylesheet" href="/css/vis-timeline-graph2d.min.css">
+<link rel="stylesheet" href="/css/Timeline/timeline.css">
+
+<div class="timeline-form-search">
+    <div class="form-search d-flex justify-content-between">
+
+        <div class="board-search d-flex justify-content-between align-items-center">
+            <div class="position-relative">
+                <i class="position-absolute fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search board" id="input-search-board">
+            </div>
+
+            <div>
+                <select id="select-project">
+                    <option value="">Project</option>
+                </select>
+
+                <select id="select-filter">
+                    <option value="value">Filter</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="text-loading-timeline" style="padding: 10px 20px;">Loading timeline...</div>
+<div class="loading-spinner"></div>
+
+@* <div class="loading-overlay">
+    <div class="loading-text">Loading...</div>
+</div> *@
+
+<div id="visualization"></div>
+
+<script src="/js/vis-timeline-graph2d.min.js"></script>
+<script src="/js/Timeline/timeline.js"></script>
+

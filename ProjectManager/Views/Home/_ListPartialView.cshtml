@@ -1,0 +1,959 @@
+﻿@model ProjectManager.Models.ViewMode.ListViewModel
+
+@{
+    ViewBag.Title = "_ListPartialView";
+
+}
+<script src="~/js/List.js"></script>
+<link rel="stylesheet" href="../css/List.css">
+
+<main class="list__patical">
+
+    <div class="project-overview">
+        <div class="section">
+            <h2>Total projects</h2>
+            <span id="TotalProjects" class="value">@Model.TotalProjects</span>
+        </div>
+        <hr class="vertical-line" />
+        <div class="section">
+            <h2>Starred</h2>
+            <span id="StarredProjects" class="value">@Model.StarredProjects</span>
+        </div>
+        <hr class="vertical-line" />
+        <div class="section">
+            <h2>To-do</h2>
+            <span id="TodoProjects" class="value">@Model.TodoProjects</span>
+        </div>
+        <hr class="vertical-line" />
+        <div class="section">
+            <h2>In-progress</h2>
+            <span id="InProgressProjects" class="value">@Model.InProgressProjects</span>
+        </div>
+        <hr class="vertical-line" />
+        <div class="section">
+            <h2>Overdue</h2>
+            <span id="OverdueProjects" class="value">@Model.OverdueProjects</span>
+        </div>
+        <hr class="vertical-line" />
+        <div class="section">
+            <h2>Completed</h2>
+            <span id="CompletedProjects" class="value">@Model.CompletedProjects</span>
+        </div>
+        <hr class="vertical-line" />
+        <div class="section">
+            <h2>Cancel</h2>
+            <span id="CanceledProjects" class="value">@Model.CanceledProjects</span>
+        </div>
+    </div>
+
+
+
+    <div class="pcoded-inner-content">
+        <div class="main-body">
+            <div class="page-wrapper">
+                <!-- Page-body start -->
+                <div class="page-body">
+                    <div class="card">
+                        <div class="card-block novaticContainer">
+                            <div class="dt-responsive table-responsive">
+                                <table id="tableData" class="table table-hover" style="width: 100% !important">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:10px;">No.</th>
+                                            <th>Type  </th>
+                                            <th>ID      </th>
+                                            <th>Task Name  </th>
+                                            <th>Status     </th>
+                                            <th>Assignee   </th>
+                                            <th>Due Date   </th>
+                                            <th>Priority   </th>
+                                            <th>Labels     </th>
+                                            <th>Client     </th>
+                                            <th>Created    </th>
+                                            <th>Updated    </th>
+                                            <th>P.I.C      </th>
+                                            <th class="button-detail-item" style="background:#eff3f6 !important"></th>
+                                        </tr>
+                                    </thead>
+                                    @* <tbody class="tableSearch">
+                                        <tr>
+                                            <th></th>
+                                            <th><input class="headFind form-control" /></th>
+                                            <th><input class="headFind form-control" /></th>
+                                            <th><input class="headFind form-control" /></th>
+                                            <th><input class="headFind form-control" /></th>
+                                            <th><input class="headFind form-control" /></th>
+                                            <th><input class="headFind form-control" /></th>
+                                            <th><input class="headFind form-control" /></th>
+                                            <th><input class="headFind form-control" /></th>
+                                            <th><input class="headFind form-control" /></th>
+                                            <th><input class="headFind form-control" /></th>
+                                            <th><input class="headFind form-control" /></th>
+                                            <th><input class="headFind form-control" /></th>
+                                        </tr>
+                                    </tbody> *@
+                                    <tbody class="tableContent">
+                                        @{
+                                            int id = 1;
+                                            foreach (var project in Model.Projects)
+                                            {
+                                                <tr class="" data-id="@project.ProjectId" data-parent="0">
+                                                    <td class="">
+                                                        <div class="d-flex justify-content-evenly align-items-center align-self-center">
+
+                                                            @id
+                                                            <div class="row-indicator">
+                                                                @if (Model.ALLProjects.Where(r => r.ParentId == project.ProjectId).Any())
+                                                                {
+                                                                    <span class="expander" data-expanded="false">
+                                                                        <img src="~/icon/chevron-right-24.png" alt="Expand Icon">
+                                                                    </span>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="">
+                                                        <div class="type-icon">
+                                                            @{
+                                                                var type = project.IssueType;
+                                                                switch (type.ToUpper())
+                                                                {
+                                                                    case "PROJECT":
+                                                                        <img src="~/icon/project-24.png" alt="Project Icon">
+                                                                        break;
+                                                                    case "EPIC":
+                                                                        <img src="~/icon/epics-24.png" alt="Epic Icon">
+                                                                        break;
+                                                                    case "TASK":
+                                                                        <img src="~/icon/task-24.png" alt="Task Icon">
+                                                                        break;
+                                                                    case "ISSUE":
+                                                                        <img src="~/icon/issue-24.png" alt="Issue Icon">
+                                                                        break;
+                                                                }
+                                                            }
+                                                        </div>
+                                                    </td>
+                                                    <td class="">
+                                                        <div class="d-flex justify-content-evenly align-items-center align-self-center">
+
+                                                            <div class="id-value">@project.ProjectId</div>
+                                                            <div class="starred-icon">
+                                                                @{
+                                                                    var star = project.Starred;
+                                                                    if (star == 1)
+                                                                    {
+                                                                        <span><img src="~/icon/star-24.png" alt="Star Icon"></span>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <span></span>
+                                                                    }
+
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="">@project.ProjectName</td>
+                                                    <td class="">@project.Status</td>
+                                                    <td class="">@project.AssigneeUserName</td>
+                                                    <td class="">@project.DueDate.ToString("MMM dd, yyyy")</td>
+                                                    <td class="">
+                                                        @{
+                                                            var priority = project.Priority.ToUpper();
+                                                            if (priority == "HIGH")
+                                                            {
+                                                                <img src="~/icon/chevron-up-26.png" alt="High Priority">
+                                                            }
+                                                            else if (priority == "MEDIUM")
+                                                            {
+                                                                <img src="~/icon/equal-sign-26.png" alt="Medium Priority">
+                                                            }
+                                                            else if (priority == "LOW")
+                                                            {
+                                                                <img src="~/icon/chevron-down-26.png" alt="Low Priority">
+                                                            }
+                                                        }
+                                                    </td>
+                                                    <td class="">@project.Label</td>
+                                                    <td class="">@project.ClientName</td>
+                                                    <td class="">@project.CreatedAt.ToString("MMM dd, yyyy")</td>
+                                                    <td class="">@project.UpdatedAt.ToString("MMM dd, yyyy")</td>
+                                                    <td class="">@project.PicUserName</td>
+                                                    <td class="button-detail-item">
+                                                        <button onclick="detailItem(@project.ProjectId)" type="button" class="btn btn-outline-info p-3 m-0" title="Detail" data-toggle="tooltip" data-original-title="btn btn-outline-info">
+                                                            <i class="feather icon-info m-0"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                if (Model.ALLProjects.Where(r => r.ParentId == project.ProjectId).Any())
+                                                {
+                                                    foreach (var child in Model.ALLProjects.Where(r => r.ParentId == project.ProjectId))
+                                                    {
+                                                        <tr class="" data-parent="@project.ProjectId" data-id="@child.ProjectId">
+                                                            <td class="">
+                                                                <div class="row-indicator">
+                                                                    @if (Model.ALLProjects.Any(r => r.ParentId == child.ProjectId))
+                                                                    {
+                                                                        <span class="expander" data-expanded="false">
+                                                                            <img src="~/icon/chevron-right-24.png" alt="Expand Icon">
+                                                                        </span>
+                                                                    }
+                                                                </div>
+                                                            </td>
+                                                            <td class="" style="text-indent: 10px; ">
+
+                                                                <div class="type-icon">
+                                                                    @{
+                                                                        var childtype = child.IssueType;
+                                                                        switch (childtype.ToUpper())
+                                                                        {
+                                                                            case "PROJECT":
+                                                                                <img src="~/icon/project-24.png" alt="Project Icon">
+                                                                                break;
+                                                                            case "EPIC":
+                                                                                <img src="~/icon/epics-24.png" alt="Epic Icon">
+                                                                                break;
+                                                                            case "TASK":
+                                                                                <img src="~/icon/task-24.png" alt="Task Icon">
+                                                                                break;
+                                                                            case "ISSUE":
+                                                                                <img src="~/icon/issue-24.png" alt="Issue Icon">
+                                                                                break;
+                                                                        }
+                                                                    }
+                                                                </div>
+                                                            </td>
+                                                            <td class="">
+                                                                <div class="d-flex justify-content-evenly align-items-center align-self-center">
+
+                                                                    <div class="id-value">@child.ProjectId</div>
+                                                                    <div class="starred-icon">
+                                                                        @{
+                                                                            var childstar = child.Starred;
+                                                                            if (childstar == 1)
+                                                                            {
+                                                                                <img src="~/icon/star-24.png" alt="Star Icon">
+                                                                            }
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="">@child.ProjectName</td>
+                                                            <td class="">@child.Status</td>
+                                                            <td class="">@child.AssigneeUserName</td>
+                                                            <td class="">@child.DueDate.ToString("MMM dd, yyyy")</td>
+                                                            <td class="">
+                                                                @{
+                                                                    var childpriority = child.Priority.ToUpper();
+                                                                    if (priority == "HIGH")
+                                                                    {
+                                                                        <img src="~/icon/chevron-up-26.png" alt="High Priority">
+                                                                    }
+                                                                    else if (priority == "MEDIUM")
+                                                                    {
+                                                                        <img src="~/icon/equal-sign-26.png" alt="Medium Priority">
+                                                                    }
+                                                                    else if (priority == "LOW")
+                                                                    {
+                                                                        <img src="~/icon/chevron-down-26.png" alt="Low Priority">
+                                                                    }
+                                                                }
+                                                            </td>
+                                                            <td class="">@child.Label</td>
+                                                            <td class="">@child.ClientName</td>
+                                                            <td class="">@child.CreatedAt.ToString("MMM dd, yyyy")</td>
+                                                            <td class="">@child.UpdatedAt.ToString("MMM dd, yyyy")</td>
+                                                            <td class="">@child.PicUserName</td>
+                                                            <td class="button-detail-item">
+                                                                <button onclick="detailItem(@child.ProjectId)" type="button" class="btn btn-outline-info p-3 m-0" title="Detail" data-toggle="tooltip" data-original-title="btn btn-outline-info">
+                                                                    <i class="feather icon-info m-0"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+
+                                                        // Tầng 2
+                                                        if (Model.ALLProjects.Where(r => r.ParentId == child.ProjectId).Any())
+                                                        {
+                                                            foreach (var subchild in Model.ALLProjects.Where(r => r.ParentId == child.ProjectId))
+                                                            {
+                                                                <tr class="" data-parent="@child.ProjectId" data-id="@subchild.ProjectId">
+                                                                    <td class="">
+                                                                        <div class="row-indicator">
+                                                                            @if (Model.ALLProjects.Any(r => r.ParentId == subchild.ProjectId))
+                                                                            {
+                                                                                <span class="expander" data-expanded="false">
+                                                                                    <img src="~/icon/chevron-right-24.png" alt="Expand Icon">
+                                                                                </span>
+                                                                            }
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="" style=" text-indent: 20px;">
+                                                                        <div class="type-icon">
+                                                                            @{
+                                                                                var subchildtype = subchild.IssueType;
+                                                                                switch (subchildtype.ToUpper())
+                                                                                {
+                                                                                    case "PROJECT":
+                                                                                        <img src="~/icon/project-24.png" alt="Project Icon">
+                                                                                        break;
+                                                                                    case "EPIC":
+                                                                                        <img src="~/icon/epics-24.png" alt="Epic Icon">
+                                                                                        break;
+                                                                                    case "TASK":
+                                                                                        <img src="~/icon/task-24.png" alt="Task Icon">
+                                                                                        break;
+                                                                                    case "ISSUE":
+                                                                                        <img src="~/icon/issue-24.png" alt="Issue Icon">
+                                                                                        break;
+                                                                                }
+                                                                            }
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="">
+                                                                        <div class="d-flex justify-content-evenly align-items-center align-self-center">
+
+                                                                            <div class="id-value">@subchild.ProjectId</div>
+                                                                            <div class="starred-icon">
+                                                                                @{
+                                                                                    var subchildstar = subchild.Starred;
+                                                                                    if (subchildstar == 1)
+                                                                                    {
+                                                                                        <img src="~/icon/star-24.png" alt="Star Icon">
+                                                                                    }
+                                                                                }
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="">@subchild.ProjectName</td>
+                                                                    <td class="">@subchild.Status</td>
+                                                                    <td class="">@subchild.AssigneeUserName</td>
+                                                                    <td class="">@subchild.DueDate.ToString("MMM dd, yyyy")</td>
+                                                                    <td class="">
+                                                                        @{
+                                                                            var subchildpriority = subchild.Priority.ToUpper();
+                                                                            if (priority == "HIGH")
+                                                                            {
+                                                                                <img src="~/icon/chevron-up-26.png" alt="High Priority">
+                                                                            }
+                                                                            else if (priority == "MEDIUM")
+                                                                            {
+                                                                                <img src="~/icon/equal-sign-26.png" alt="Medium Priority">
+                                                                            }
+                                                                            else if (priority == "LOW")
+                                                                            {
+                                                                                <img src="~/icon/chevron-down-26.png" alt="Low Priority">
+                                                                            }
+                                                                        }
+                                                                    </td>
+                                                                    <td class="">@subchild.Label</td>
+                                                                    <td class="">@subchild.ClientName</td>
+                                                                    <td class="">@subchild.CreatedAt.ToString("MMM dd, yyyy")</td>
+                                                                    <td class="">@subchild.UpdatedAt.ToString("MMM dd, yyyy")</td>
+                                                                    <td class="">@subchild.PicUserName</td>
+                                                                    <td class="button-detail-item">
+                                                                        <button onclick="detailItem(@subchild.ProjectId)" type="button" class="btn btn-outline-info p-3 m-0" title="Detail" data-toggle="tooltip" data-original-title="btn btn-outline-info">
+                                                                            <i class="feather icon-info m-0"></i>
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                                // Tầng 2
+                                                                if (Model.ALLProjects.Where(r => r.ParentId == subchild.ProjectId).Any())
+                                                                {
+                                                                    foreach (var subsubchild in Model.ALLProjects.Where(r => r.ParentId == subchild.ProjectId))
+                                                                    {
+                                                                        <tr class="" data-parent="@subchild.ProjectId" data-id="@subsubchild.ProjectId">
+                                                                            <td class=""> </td>
+                                                                            <td class="" style="text-indent: 30px; ">
+                                                                                <div class="row-indicator">
+                                                                                    @if (Model.ALLProjects.Any(r => r.ParentId == subsubchild.ProjectId))
+                                                                                    {
+                                                                                        <span class="expander" data-expanded="false">
+                                                                                            <img src="~/icon/chevron-right-24.png" alt="Expand Icon">
+                                                                                        </span>
+                                                                                    }
+                                                                                </div>
+                                                                                <div class="type-icon">
+                                                                                    @{
+                                                                                        var subsubchildtype = subsubchild.IssueType;
+                                                                                        switch (subsubchildtype.ToUpper())
+                                                                                        {
+                                                                                            case "PROJECT":
+                                                                                                <img src="~/icon/project-24.png" alt="Project Icon">
+                                                                                                break;
+                                                                                            case "EPIC":
+                                                                                                <img src="~/icon/epics-24.png" alt="Epic Icon">
+                                                                                                break;
+                                                                                            case "TASK":
+                                                                                                <img src="~/icon/task-24.png" alt="Task Icon">
+                                                                                                break;
+                                                                                            case "ISSUE":
+                                                                                                <img src="~/icon/issue-24.png" alt="Issue Icon">
+                                                                                                break;
+                                                                                        }
+                                                                                    }
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="">
+                                                                                <div class="d-flex justify-content-evenly align-items-center align-self-center">
+
+                                                                                    <div class="id-value">@subsubchild.ProjectId</div>
+                                                                                    <div class="starred-icon">
+                                                                                        @{
+                                                                                            var subsubchildstar = subsubchild.Starred;
+                                                                                            if (subsubchildstar == 1)
+                                                                                            {
+                                                                                                <img src="~/icon/star-24.png" alt="Star Icon">
+                                                                                            }
+                                                                                        }
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="">@subsubchild.ProjectName</td>
+                                                                            <td class="">@subsubchild.Status</td>
+                                                                            <td class="">@subsubchild.AssigneeUserName</td>
+                                                                            <td class="">@subsubchild.DueDate.ToString("MMM dd, yyyy")</td>
+                                                                            <td class="">
+                                                                                @{
+                                                                                    var subsubchildpriority = subsubchild.Priority.ToUpper();
+                                                                                    if (priority == "HIGH")
+                                                                                    {
+                                                                                        <img src="~/icon/chevron-up-26.png" alt="High Priority">
+                                                                                    }
+                                                                                    else if (priority == "MEDIUM")
+                                                                                    {
+                                                                                        <img src="~/icon/equal-sign-26.png" alt="Medium Priority">
+                                                                                    }
+                                                                                    else if (priority == "LOW")
+                                                                                    {
+                                                                                        <img src="~/icon/chevron-down-26.png" alt="Low Priority">
+                                                                                    }
+                                                                                }
+                                                                            </td>
+                                                                            <td class="">@subsubchild.Label</td>
+                                                                            <td class="">@subsubchild.ClientName</td>
+                                                                            <td class="">@subsubchild.CreatedAt.ToString("MMM dd, yyyy")</td>
+                                                                            <td class="">@subsubchild.UpdatedAt.ToString("MMM dd, yyyy")</td>
+                                                                            <td class="">@subsubchild.PicUserName</td>
+                                                                            <td class="button-detail-item">
+                                                                                <button onclick="detailItem(@subsubchild.ProjectId)" type="button" class="btn btn-outline-info p-3 m-0" title="Detail" data-toggle="tooltip" data-original-title="btn btn-outline-info">
+                                                                                    <i class="feather icon-info m-0"></i>
+                                                                                </button>
+                                                                            </td>
+                                                                        </tr>
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+
+                                                id++;
+                                            }
+                                        }
+
+                                    </tbody>
+                                    @* <tfoot>
+                                        <tr>
+                                            <th></th>
+                                            <th><input class="footFind form-control" /></th>
+                                            <th><input class="footFind form-control" /></th>
+                                            <th><input class="footFind form-control" /></th>
+                                            <th><input class="footFind form-control" /></th>
+                                            <th><input class="footFind form-control" /></th>
+                                            <th><input class="footFind form-control" /></th>
+                                            <th><input class="footFind form-control" /></th>
+                                            <th><input class="footFind form-control" /></th>
+                                            <th><input class="footFind form-control" /></th>
+                                            <th><input class="footFind form-control" /></th>
+                                            <th><input class="footFind form-control" /></th>
+                                            <th><input class="footFind form-control" /></th>
+                                        </tr>
+                                    </tfoot> *@
+                                </table>
+
+                                <div class="modal fade" id="modal-id" >
+                                    <div class="modal-dialog modal-3xl">
+                                        <div class="modal-content">
+                                            <div class="modal-header ">
+                                                <h4 class="modal-title">
+                                                    </i>Project / <img src="../assets/images/project-24.png" alt="Epic Icon">
+                                                    MS-0000001
+                                                </h4>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">
+                                                    &times;
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-xl-8 col-md-6 left-side">
+                                                        <div class="col-sm-12">
+                                                            <div class="project-name">
+                                                                Eureka3 Folded Ball Vision Inspection
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12">
+                                                            <div class="project-progress">
+                                                                <div class="title-progress flex-row d-flex justify-content-between">
+                                                                    <div class="title-left">Received PO</div>
+                                                                    <div class="title-center">Delivery</div>
+                                                                    <div class="title-right">Finished</div>
+                                                                </div>
+                                                                <div class="bar-progress flex-row d-flex justify-content-between">
+                                                                    <div class="bar-left">
+                                                                    </div>
+                                                                    <div id="bar_1" class="progress-bar"></div>
+                                                                    <div class="bar-center">
+                                                                    </div>
+                                                                    <div id="bar_2" class="progress-bar"></div>
+                                                                    <div class="bar-right">
+                                                                        <!-- <div class="progress-bar bar"></div> -->
+                                                                    </div>
+                                                                </div>
+                                                                <div class="progress-date flex-row d-flex justify-content-between">
+                                                                    <div class="title-left">01/01/2024</div>
+                                                                    <div class="title-center">06/06/2024</div>
+                                                                    <div class="title-right">12/12/2024</div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="detail-description">
+                                                                <h6>
+                                                                    Description</h3>
+                                                                    <div class="sub-description">
+                                                                        Lorem, ipsum dolor
+                                                                        sit
+                                                                        amet consectetur adipisicing elit. Rem
+                                                                        aspernatur reiciendis mollitia quod iste
+                                                                        minima
+                                                                        voluptas ipsum, sequi eum natus suscipit
+                                                                        doloribus possimus eveniet obcaecati
+                                                                        nesciunt
+                                                                        sunt illo sint esse?
+                                                                    </div>
+                                                            </div>
+                                                            <div class="child-issues d-flex flex-column justify-content-right">
+                                                                <div class="issues-header d-flex flex-row justify-content-right">
+                                                                    <h6>Child issues</h6>
+                                                                    <div type="button" class="button-add-child-issue">
+                                                                        <i class="fa fa-plus"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="issues-body ">
+                                                                    <div class="issue-progress d-flex flex-row justify-content-between">
+                                                                        <div id="bar_3" class="progress-bar"></div>
+                                                                        <div>30% Done</div>
+                                                                    </div>
+                                                                    <div>
+                                                                        <table class="issues-table">
+                                                                            <tr class="issue-item align-items-center ">
+                                                                                <td>
+                                                                                    <i class="fa fa-angle-right"></i>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <img src="../assets/images/project-24.png"
+                                                                                         alt="Epic Icon">
+                                                                                </td>
+                                                                                <td>WP-1</td>
+                                                                                <td>Epic Name</td>
+                                                                                <td>
+                                                                                    <div class="btn-group">
+                                                                                        <button type="button"
+                                                                                                class="btn btn-primary dropdown-toggle button-issue-left"
+                                                                                                style="background-color: rgb(206, 255, 206); color: green;"
+                                                                                                data-toggle="dropdown"
+                                                                                                aria-haspopup="true"
+                                                                                                aria-expanded="false">
+                                                                                            Done
+                                                                                        </button>
+                                                                                        <div class="dropdown-menu">
+                                                                                            <a class="dropdown-item"
+                                                                                               href="#">To Do</a>
+                                                                                            <a class="dropdown-item"
+                                                                                               href="#">
+                                                                                                In
+                                                                                                Progress
+                                                                                            </a>
+                                                                                            <a class="dropdown-item"
+                                                                                               href="#">Done</a>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <i class="fa fa-angle-up"
+                                                                                       style="color: red;"></i>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="issues-asign">
+                                                                                        Ha
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr class="issue-item align-items-center ">
+                                                                                <td>
+                                                                                    <i class="fa fa-angle-right"></i>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <img src="../assets/images/project-24.png"
+                                                                                         alt="Epic Icon">
+                                                                                </td>
+                                                                                <td>WP-1</td>
+                                                                                <td>Epic Name</td>
+                                                                                <td>
+                                                                                    <div class="btn-group">
+                                                                                        <button type="button"
+                                                                                                class="btn btn-primary dropdown-toggle button-issue-left"
+                                                                                                style="background-color: rgb(206, 255, 206); color: green;"
+                                                                                                data-toggle="dropdown"
+                                                                                                aria-haspopup="true"
+                                                                                                aria-expanded="false">
+                                                                                            Done
+                                                                                        </button>
+                                                                                        <div class="dropdown-menu">
+                                                                                            <a class="dropdown-item"
+                                                                                               href="#">To Do</a>
+                                                                                            <a class="dropdown-item"
+                                                                                               href="#">
+                                                                                                In
+                                                                                                Progress
+                                                                                            </a>
+                                                                                            <a class="dropdown-item"
+                                                                                               href="#">Done</a>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <i class="fa fa-angle-up"
+                                                                                       style="color: red;"></i>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="issues-asign">
+                                                                                        Ha
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr class="issue-item align-items-center ">
+                                                                                <td>
+                                                                                    <i class="fa fa-angle-right"></i>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <img src="../assets/images/project-24.png"
+                                                                                         alt="Epic Icon">
+                                                                                </td>
+                                                                                <td>WP-1</td>
+                                                                                <td>Epic Name</td>
+                                                                                <td>
+                                                                                    <div class="btn-group">
+                                                                                        <button type="button"
+                                                                                                class="btn btn-primary dropdown-toggle button-issue-left"
+                                                                                                style="background-color: rgb(206, 255, 206); color: green;"
+                                                                                                data-toggle="dropdown"
+                                                                                                aria-haspopup="true"
+                                                                                                aria-expanded="false">
+                                                                                            Done
+                                                                                        </button>
+                                                                                        <div class="dropdown-menu">
+                                                                                            <a class="dropdown-item"
+                                                                                               href="#">To Do</a>
+                                                                                            <a class="dropdown-item"
+                                                                                               href="#">
+                                                                                                In
+                                                                                                Progress
+                                                                                            </a>
+                                                                                            <a class="dropdown-item"
+                                                                                               href="#">Done</a>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <i class="fa fa-angle-up"
+                                                                                       style="color: red;"></i>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="issues-asign">
+                                                                                        Ha
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="child-issues d-flex flex-column justify-content-right">
+                                                                <div class="issues-header d-flex flex-row justify-content-right">
+                                                                    <h6>Attachments</h6>
+                                                                </div>
+                                                                <div type="button" class="button-file-attachments">
+                                                                    <i class="fa fa-paperclip"></i> Document
+                                                                </div>
+                                                                <div type="button" class="button-add-attachments">
+                                                                    <i class="fa fa-plus"></i> Add Attachments
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="child-issues d-flex flex-column justify-content-right">
+                                                                <div class="issues-header d-flex flex-row justify-content-right">
+                                                                    <h6>Activity</h6>
+                                                                    <div class="detai-activity-commment">
+                                                                        Comments
+                                                                    </div>
+                                                                    <div class="detai-activity-history">
+                                                                        History
+                                                                    </div>
+                                                                </div>
+                                                                <div class="issues-body d-flex flex-row justify-content-right">
+                                                                    <img class="activity-avatar"
+                                                                         src="../assets/images/user/avatar-1.jpg" alt="">
+                                                                    <textarea class="activity-comment form-control"
+                                                                              name="" id=""
+                                                                              placeholder="Add a comment ..."></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="detail-comment">
+                                                                <div class="content-comment">
+                                                                    <div class="content-comment-header">
+                                                                        <img class="activity-avatar"
+                                                                             src="../assets/images/user/avatar-1.jpg"
+                                                                             alt="">
+                                                                        <div>DaiNB</div>
+                                                                        <div class="content-comment-header-date">
+                                                                            12 Nov
+                                                                            2024, 05:03
+                                                                            PM
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="content-comment-body">
+                                                                        <p>
+                                                                            Lorem ipsum dolor sit amet consectetur
+                                                                            adipisicing elit. Natus culpa magni corrupti
+                                                                            itaque quisquam quidem vero at mollitia
+                                                                            maxime facilis eveniet, error porro
+                                                                            doloremque laboriosam voluptate dolor
+                                                                            excepturi. Cumque, error!
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="content-comment-bottom">
+                                                                        <div>Reply</div>
+                                                                        <div>Edit</div>
+                                                                        <div>Delete</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-xl-4 right-side">
+                                                        <div class="btn-group">
+                                                            <button type="button"
+                                                                    class="btn btn-primary dropdown-toggle button-detail-right"
+                                                                    style="background-color: blue;" data-toggle="dropdown"
+                                                                    aria-haspopup="true" aria-expanded="false">
+                                                                In Progress
+                                                            </button>
+                                                            <div class="dropdown-menu">
+                                                                <a class="dropdown-item" href="#">To Do</a>
+                                                                <a class="dropdown-item" href="#">In Progress</a>
+                                                                <a class="dropdown-item" href="#">Done</a>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="accordion" id="detail_info">
+                                                            <div class="card">
+                                                                <div class="card-header" id="headingOne">
+                                                                    <h5 class="mb-0 d-flex justify-content-between">
+                                                                        <a href="#!" data-toggle="collapse"
+                                                                           data-target="#collapseOne"
+                                                                           aria-expanded="true"
+                                                                           aria-controls="collapseOne">Detail</a><i class="fa-angle-down fa"></i>
+                                                                    </h5>
+                                                                </div>
+                                                                <div id="collapseOne" class=" card-body collapse show"
+                                                                     aria-labelledby="headingOne"
+                                                                     data-parent="#detail_info">
+                                                                    <table id="table_detail_info">
+                                                                        <tr>
+                                                                            <th>Starred</th>
+                                                                            <td>Đây là ngôi sao vàng :)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Priority</th>
+                                                                            <td><i class="fa-angle-up fa"> High</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Client</th>
+                                                                            <td>Jahwa</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Type</th>
+                                                                            <td>Setup Vision</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>P.I.C</th>
+                                                                            <td>
+                                                                                <div>
+                                                                                    <div class="issues-asign">
+                                                                                        Dai
+                                                                                    </div>
+                                                                                    <div>DaiNB</div>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Assignee</th>
+                                                                            <td>
+                                                                                <div>
+                                                                                    <div class="issues-asign">
+                                                                                        Dai
+                                                                                    </div>
+                                                                                    <div>DaiNB</div>
+                                                                                </div>
+                                                                                <div>
+                                                                                    <div class="issues-asign">
+                                                                                        Quy
+                                                                                    </div>
+                                                                                    <div>QuyTT</div>
+                                                                                </div>
+                                                                                <div>
+                                                                                    <div class="issues-asign">
+                                                                                        Duy
+                                                                                    </div>
+                                                                                    <div>DuyNK</div>
+                                                                                </div>
+                                                                                <div>
+                                                                                    <div class="issues-asign">
+                                                                                        Tin
+                                                                                    </div>
+                                                                                    <div>TinLN</div>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Start Date</th>
+                                                                            <td>
+                                                                                <input class="form-control" type="date"
+                                                                                       value="2024-01-01">
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Due Date</th>
+                                                                            <td>
+                                                                                <input class="form-control" type="date"
+                                                                                       value="2024-06-06">
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Finish Date</th>
+                                                                            <td>
+                                                                                <input class="form-control" type="date"
+                                                                                       value="2024-12-12">
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Label</th>
+                                                                            <td>
+                                                                                <div class="info-label">
+                                                                                    <div class="detail-info-label">
+                                                                                        Stiffiner
+                                                                                    </div>
+                                                                                    <div class="detail-info-label">
+                                                                                        Jetting
+                                                                                    </div>
+                                                                                    <div class="detail-info-label">
+                                                                                        Inspection
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="log-CRUD">
+                                                            <p>Created September 23, 2024 at 3:17 PM</p>
+                                                            <p>Updated September 25, 2024 at 5:17 PM</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary" id="btnUpdateItem" onclick="document.getElementById('hiddenSubmit').click();">Save changes</button> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<style>
+
+    #tableData td {
+        white-space: normal;
+        border-top: none !important;
+        border-bo: none !important;
+    }
+
+    #tableData tr {
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .button-detail-item {
+        position: sticky;
+        right: 0;
+        background-color: #fff !important; /* Thêm màu nền cho cột đã ghim */
+        z-index: 1; /* Đảm bảo cột ghim nằm trên các cột khác */
+    }
+
+    .outer-container {
+        width: 100%;
+        overflow-x: auto; /* Ghim thanh cuộn ngang cho phần tử ngoài */
+        padding-bottom: 20px; /* Thêm khoảng trống dưới để có thể cuộn */
+    }
+
+    .inner-container {
+        min-width: 100%;
+        overflow-x: scroll; /* Thanh cuộn ngang cho phần tử bên trong */
+        white-space: nowrap; /* Ngăn cách các ô bảng không bị xuống dòng */
+    }
+
+</style>
+
+<script>
+    function countUp(targetId, start, end, duration) {
+        let current = start;
+        const increment = (end - start) / (duration / 10); // Tăng giá trị mỗi 10ms
+        const element = document.getElementById(targetId);
+
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= end) {
+                current = end;
+                clearInterval(timer);
+            }
+            element.textContent = Math.floor(current); // Hiển thị số nguyên
+        }, 10);
+    }
+
+    // Gọi hàm để đếm từ 0 đến 100
+    countUp('TotalProjects', 0, @Model.TotalProjects, 1000); // Đếm trong 2 giây
+    countUp('StarredProjects', 0, @Model.StarredProjects, 1000); // Đếm trong 2 giây
+    countUp('TodoProjects', 0, @Model.TodoProjects, 1000); // Đếm trong 2 giây
+    countUp('InProgressProjects', 0, @Model.InProgressProjects, 1000); // Đếm trong 2 giây
+    countUp('OverdueProjects', 0, @Model.OverdueProjects, 1000); // Đếm trong 2 giây
+    countUp('CompletedProjects', 0, @Model.CompletedProjects, 1000); // Đếm trong 2 giây
+    countUp('CanceledProjects', 0, @Model.CanceledProjects, 1000); // Đếm trong 2 giây
+
+    function detailItem(itemId){
+        $("#modal-id").modal('show');
+    }
+
+</script>
+
+<script>
+    const chevronDownIcon = '@Url.Content("~/icon/chevron-down-24.png")';
+    const chevronRightIcon = '@Url.Content("~/icon/chevron-right-24.png")';
+</script>

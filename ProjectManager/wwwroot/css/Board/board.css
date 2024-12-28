@@ -1,0 +1,213 @@
+﻿.board {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    align-items: flex-start;
+}
+
+.board-form-search .form-search {
+    padding-left: 20px;
+    margin-top: 10px;
+}
+
+.board-form-search i.fa-magnifying-glass {
+    font-size: 15px;
+    top: 10px;
+    left: 10px;
+    color: #6F6F70;
+}
+
+.board-form-search #input-search-board {
+    width: 30em;
+    padding-left: 35px;
+    border: none;
+    outline: none !important;
+}
+
+.board-form-search #select-project {
+    font-size: 15px;
+    margin-left: 20px;
+    height: 35px;
+    border-radius: 4px;
+    width: 10em;
+    padding: 5px;
+    border-color: #6F6F70;
+    border: none;
+    outline: none !important;
+    color: #6F6F70;
+}
+
+.board-form-search #select-filter {
+    font-size: 15px;
+    margin-left: 20px;
+    height: 35px;
+    border-radius: 4px;
+    width: 10em;
+    outline: none !important;
+    border: none;
+    padding: 5px;
+    border-color: #6F6F70;
+    color: #6F6F70;
+}
+
+.board .column {
+    width: 300px;
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.board .column-header {
+    font-weight: bold;
+    background: #CACACA;
+    padding: 8px;
+    font-size: 13px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    color: #223759;
+}
+
+.board .bg-column-in-progress, .board .bg-column-in-following {
+    background: #C8E9FF;
+}
+
+.board .bg-column-done {
+    background: #CAF0B9;
+}
+
+.board .task-list {
+    min-height: 20px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.board .task {
+    padding: 5px 10px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: grab;
+    transition: transform 0.2s;
+}
+
+.board .task.dragging {
+    transform: rotate(8deg);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    opacity: 0.8;
+    cursor: grabbing;
+}
+
+.board .task .task-each-team {
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #223759;
+}
+
+.board .task .project-name {
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-align: center;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    background: #DFD8FD;
+    color: #5E4DC3;
+    padding: 3px 8px;
+    border-radius: 15px;
+    margin: 3px 0px;
+}
+
+.board .task .due-date {
+    background: #D1D0D09C;
+    padding: 4px 6px;
+    font-size: 10px;
+    font-family: Inter;
+    font-weight: 600;
+    text-align: center;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    border-radius: 12px;
+    margin: 2px 0px;
+}
+
+.board .task .due-date i {
+    font-size: 15px;
+}
+
+.board .task .wp input {
+    width: 20px;
+    height: 18px;
+    margin-top: 0;
+}
+
+.board .task .wp label {
+    margin-left: 13px;
+    font-weight: normal;
+}
+
+.board .task .user-doing ul {
+    margin: 0;
+}
+
+.board .task .user-doing ul li {
+    list-style: none;
+    background-color: #007bff;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin-left: 3px;
+}
+
+.board .ui-sortable-placeholder {
+    height: 100px;
+    background-color: #ddd;
+    border: dashed 1px #bbb;
+}
+
+.board .card-count {
+    font-size: 13px;
+}
+
+.board .task.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.board .add-card {
+    outline: none !important;
+    padding: 5px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 5px;
+    font-size: 13px;
+    font-weight: 600;
+    background: transparent;
+    color: #486391;
+}
+
+.board .add-card:hover {
+    background-color: #d0d0d0;
+}
+
+.board .fa-angles-up, .fa-angle-up {
+    color: #FD5308;
+}
+
+.board .fa-equals {
+    color: #ECB22E;
+}
